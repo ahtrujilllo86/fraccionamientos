@@ -3,15 +3,28 @@
     min-height: 100vh;
     width: 100vw;
 }
-
 .regform{
     min-height: 50vh;
     top: 15%;
     position: absolute;
     text-align: center;
-
 }
-
 .logorow{
     margin-left: 3.5vw;
+}
+.barrasuperior{
+    background-color: rgb(1, 30, 32);
+}
+.accesos{
+    text-align: center;
+}
+.accesos h3{
+    margin-top: -40px;
+}
+.rowimg{
+    text-align: right;
+}
+.rowimg img{
+    margin-top: 5px;
+    margin-right: -10px;
 }

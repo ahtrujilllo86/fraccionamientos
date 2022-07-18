@@ -11,11 +11,11 @@ $resultado = mysqli_query($conexion,$sql);
 $data = mysqli_fetch_array($resultado);
 if ($data > 0)
 {
-    $_SESSION["id"] = $data['id']."<br>";
-    $_SESSION["idfrac"] = $data['idfrac']."<br>";
-    $_SESSION["nombre1"] = $data['nombre1']."<br>";
-    $_SESSION["apellidop"] = $data['apellidop']."<br>";
-    $_SESSION["correo"] = $data['correo']."<br>";
+    $_SESSION["id"] = $data['id'];
+    $_SESSION["idfrac"] = $data['idfrac'];
+    $_SESSION["nombre1"] = $data['nombre1'];
+    $_SESSION["apellidop"] = $data['apellidop'];
+    $_SESSION["correo"] = $data['correo'];
     $_SESSION["casa"] = $data['casa'];
     header("Location: main.php");
 }

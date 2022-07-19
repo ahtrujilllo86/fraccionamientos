@@ -3,6 +3,8 @@ session_start();
 if($_SESSION["correo"]){
     $user = $_SESSION["nombre1"] . " " . $_SESSION["apellidop"];
     $id = $_SESSION["id"];
+    $casa = $_SESSION["casa"];
+    $idfrac = $_SESSION["idfrac"];
 }else{
 header("Location: index.html");
 }
@@ -20,6 +22,7 @@ header("Location: index.html");
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
     <script src="js/funciones.js"></script>
+    <script src="js/qrcode.js"></script>
 </head>
 <script>
     $(document).ready(function(){
@@ -41,7 +44,7 @@ header("Location: index.html");
         <a class="nav-link" href="javascript:historial();">Historico</a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" href="javascript:configurar();">Configurar</a>
+        <a class="nav-link" href="javascript:configurar();">Administrar</a>
       </li>
       <li class="nav-item active">
         <a class="nav-link" href="logout.php">Salir</a>
@@ -53,7 +56,7 @@ header("Location: index.html");
 <div class="container-fluid" id="principal">
     <div class="row">
         <div class="col rowimg">
-            <img src="img/addiconblue.png" width="60px" alt="Agregar">
+            <img src="img/addiconblue.png" width="60px" alt="Agregar" data-toggle="modal" data-target="#NuevoAcceso">
         </div>
     </div>
     <div class="row justify-content-center">
@@ -61,36 +64,73 @@ header("Location: index.html");
             <h3>Mis Accesos</h3>
         </div>
     </div>
-    
-    
-
 
 </div><!--end container-fluid1-->
 <div class="container-fluid" id="acctabla">
     <div class="row justify-content-center accestable">
             <div class="col-12 col-lg-8" id="tableaccesos">
-              <!--  <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Vigencia</th>
-                        <th scope="col">QR</th>
-                        <th scope="col">Eliminar</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <th scope="row">Angel Hernandez</th>
-                        <td>2022-07-22</td>
-                        <td><button class="btn btn-warning"><img src="img/downicon.png" width="20px" alt=""></button></td>
-                        <td><button class="btn btn-danger"><img src="img/deleteicon.png" width="20px" alt=""></button></td>
-                    </tr>
-                    </tbody>
-                    
-                </table>-->
+
             </div>
     </div>
 </div><!--end container-fluid2-->
+
+<div id="qrcode"></div>
+
+<!-- Modal nuevo acceso-->
+<div class="modal fade modalnew" id="NuevoAcceso" tabindex="-1" aria-labelledby="NuevoAccesoLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title modtitulo" id="exampleModalLabel">Nuevo acceso casa <?php echo $casa; ?></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="row justify-content-center" >
+        <div class="col-8" id="qrgen">
+
+        </div>
+      </div>
+      
+      
+      <div class="modal-body" id="modbody">
+        <div class="row modcuerpo">
+            <div class="col-12">
+              <h5>Tipo de acceso</h5>
+              <select name="tipoacceso" id="tipoacceso" class="form-control">
+                <option value="Visita">Visita</option>
+                <option value="Empleado">Empleado</option>
+                <option value="Proveedor">Proveedor</option>
+              </select><br>
+              <input type="text" id="nombrevisita" class="form-control" placeholder="Nombre del visitante"><br>
+              <div class="row">
+                <div class="col-1">
+                    <input type="checkbox" id="checkauto" onclick="showautodiv(this.checked)"> 
+                </div>
+                <div class="col">
+                    <h5>Automovil</h5>
+                </div>
+              </div>
+              <div class="col-12" id="autodatos" style="display: none;">
+                  <input type="text" class="form-control" id="marca" placeholder="marca"><br>
+                  <input type="text" class="form-control" id="modelo" placeholder="modelo"><br>
+                  <input type="text" class="form-control" id="color" placeholder="color"><br>
+                  <input type="text" class="form-control" id="placas" placeholder="placas">
+              </div>
+              <br><h5>Inicio</h5><input type="datetime-local" id="inicio" class="form-control">
+              <br><h5>Fin</h5><input type="datetime-local" id="fin" class="form-control">              
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" id="modfoot">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="button" onclick="qrgen()" class="btn btn-success">QRGen</button>
+        <button type="button" onclick="guardaracceso()" class="btn btn-info">Guardar</button>
+      </div>
+      
+    </div>
+  </div>
+</div>
     
 </body>
 </html>

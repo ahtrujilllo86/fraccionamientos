@@ -1,0 +1,48 @@
+<?php
+session_start();
+include("conexion.php");
+$idusuario = $_SESSION["id"];
+$idfrac = $_SESSION["idfrac"];
+$casa = $_SESSION["casa"];
+$autoriza = $_SESSION["nombre1"] . " " . $_SESSION["apellidop"];
+
+$tipo = $_POST['tipo'];
+$nombre = $_POST['nombre'];
+$marca = $_POST['marca'];
+$modelo = $_POST['modelo'];
+$color = $_POST['color'];
+$placas = $_POST['placas'];
+$inicio = $_POST['inicio'];
+$fin = $_POST['fin'];
+
+//echo $fin;
+$indexacc = "SELECT indexacceso  from accesos ORDER BY id DESC LIMIT 1";
+$resultado = mysqli_query($conexion,$indexacc);
+$indexacceso = mysqli_fetch_array($resultado);
+$newindex = $indexacceso[0] +1;
+//echo $newindex;
+
+if($inicio == NULL || $fin == NULL ){
+    echo ("fecha no valida. Intente de nuevo");
+}else{
+    
+    $saveregistro = "INSERT INTO accesos (indexacceso,idusuario,idfrac,tipo,nombre,marca,
+    modelo,color,placas,inicio,fin,vigente,casa,autoriza)VALUES 
+    ('$newindex','$idusuario','$idfrac','$tipo','$nombre','$marca',
+    '$modelo','$color','$placas','$inicio','$fin','si','$casa','$autoriza')";
+    if(mysqli_query($conexion, $saveregistro)){
+        //echo "Registro insertado!!";
+        echo "1";
+    }else{
+         echo "Error, intente de nuevo";
+    }
+    
+}
+
+
+
+
+// Close connection
+mysqli_close($conexion);
+
+?>

@@ -22,18 +22,107 @@ $id = $_SESSION["id"];
 ?>
 
 <div class="container-fluid">
-    <div class="row justify-content-center">
-        <div class="col-8 col-lg-4 regform">
-            <div class="row logorow">
-                <h3>Cambiar Password</h3>
-            </div>
-            <!--<form action="login.php" method="POST"></form>-->
-            <br><br><input name="antpassword" id="antpassword" type="password" class="form-control" onkeyup="checkpass(<?php echo $id?>);" placeholder="password anterior">
+    <div class="row justify-content-center cambiarpassword">
+        <div class="col-8 col-lg-4">
+                <h5>Cambiar Password</h5>
+            <input name="antpassword" id="antpassword" type="password" class="form-control" onkeyup="checkpass(<?php echo $id?>);" placeholder="password anterior">
             <br><input name="password" id="newpass" type="password" class="form-control" placeholder="nuevo password">
             <br><button class="btn btn-block btn-primary" id="btnpass" onclick="changepass()" disabled>Guardar</button>
-            
+            <br>
         </div>
-    </div>  
+    </div> <!--end row password form-->
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-6 tableaccmanage">
+            <br><h5>Administrar Accesos</h5><br>
+            <?php
+            //despues de revisar vigencias y cambiar los vencidos a vigente=no, traigo los permisos vigentes
+            $sql = "SELECT * FROM accesos WHERE idusuario = '$id' and vigente = 'si'";
+            $resultado = mysqli_query($conexion,$sql);
+            if (mysqli_num_rows($resultado) > 0) {
+            ?>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Inicio</th>
+                        <th scope="col">Fin</th>
+                        <th scope="col">Eliminar</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+            <?php 
+                // output data of each row
+                while($row = mysqli_fetch_assoc($resultado)) {
+            ?>
+                        <tr>
+                            <th scope="row"><?php echo $row['nombre'];  ?></th>
+                            <td><?php echo $row['inicio'];  ?></td>
+                            <td><?php echo $row['fin'];  ?></td>
+                         <!--   <td><button class="btn btn-warning"><img src="img/downicon.png" width="20px" alt=""></button></td>-->
+                           <td><button class="btn btn-danger"><img src="img/deleteicon.png" width="20px" alt=""></button></td>
+                        </tr>
+            <?php 
+                }
+            ?>
+                    </tbody>
+                </table> <br>  
+            <?php 
+
+            }
+            ?>
+        </div>
+    </div><!--end row table accesos vigentes-->
+
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-6 tableaccmanage">
+            <div class="row">
+                <div class="col-8 col-lg-10">
+                    <h5>Autos Registrados</h5>
+                </div>
+                <div class="col-4 col-lg-2">
+                    <button class="btn btn-warning">Nuevo</button><br>
+                </div>
+            </div>
+            <!--<h5>Autos Registrados <button class="btn btn-warning">Nuevo</button></h5>-->
+            <?php
+            //despues de revisar vigencias y cambiar los vencidos a vigente=no, traigo los permisos vigentes
+            $sql = "SELECT * FROM accesos WHERE idusuario = '$id' and vigente = 'si'";
+            $resultado = mysqli_query($conexion,$sql);
+            if (mysqli_num_rows($resultado) > 0) {
+            ?>
+               <br> <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Modelo</th>
+                        <th scope="col">Color</th>
+                        <th scope="col">Placas</th>
+                        <th scope="col">Eliminar</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+            <?php 
+                // output data of each row
+                while($row = mysqli_fetch_assoc($resultado)) {
+            ?>
+                        <tr>
+                            <th scope="row"><?php echo $row['modelo'];  ?></th>
+                            <td><?php echo $row['color'];  ?></td>
+                            <td><?php echo $row['placas'];  ?></td>
+                         <!--   <td><button class="btn btn-warning"><img src="img/downicon.png" width="20px" alt=""></button></td>-->
+                           <td><button class="btn btn-danger"><img src="img/deleteicon.png" width="20px" alt=""></button></td>
+                        </tr>
+            <?php 
+                }
+            ?>
+                    </tbody>
+                </table>   
+            <?php 
+
+            }
+            ?>
+        </div>
+    </div><!--end row table autos registrados-->
+    
 </div>
     
 </body>

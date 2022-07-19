@@ -23,7 +23,7 @@ if (mysqli_num_rows($resultado) > 0) {
             <th scope="col">Tipo</th>
             <th scope="col">Inicio</th>
             <th scope="col">Fin</th>
-            <th scope="col">Estatus</th>
+            <th scope="col">Vigente</th>
         </tr>
         </thead>
         <tbody>

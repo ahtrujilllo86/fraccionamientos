@@ -11,4 +11,5 @@ if(mysqli_query($conexion, $cambiapass)){
 }
 // Close connection
 mysqli_close($conexion);
+session_destroy();
  ?>

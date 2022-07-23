@@ -1,7 +1,7 @@
-<!DOCTYPE html>
+ <!-- <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QG Access Master</title>
@@ -12,7 +12,7 @@
     <script src="js/funciones.js"></script>
 </head>
 <body>
-
+-->
 <?php
 date_default_timezone_set("America/Mexico_City");
 session_start();
@@ -35,7 +35,6 @@ $id = $_SESSION["id"];
         <div class="col-12 col-lg-6 tableaccmanage">
             <br><h5>Administrar Accesos</h5><br>
             <?php
-            //despues de revisar vigencias y cambiar los vencidos a vigente=no, traigo los permisos vigentes
             $sql = "SELECT * FROM accesos WHERE idusuario = '$id' and vigente = 'si'";
             $resultado = mysqli_query($conexion,$sql);
             if (mysqli_num_rows($resultado) > 0) {
@@ -58,8 +57,7 @@ $id = $_SESSION["id"];
                             <th scope="row"><?php echo $row['nombre'];  ?></th>
                             <td><?php echo $row['inicio'];  ?></td>
                             <td><?php echo $row['fin'];  ?></td>
-                         <!--   <td><button class="btn btn-warning"><img src="img/downicon.png" width="20px" alt=""></button></td>-->
-                           <td><button class="btn btn-danger"><img src="img/deleteicon.png" width="20px" alt=""></button></td>
+                           <td><button class="btn btn-danger" onclick="borraracceso(this.id)" id="<?php echo $row['indexacceso'];  ?>"><img src="img/deleteicon.png" width="20px" alt=""></button></td>
                         </tr>
             <?php 
                 }
@@ -80,13 +78,11 @@ $id = $_SESSION["id"];
                     <h5>Autos Registrados</h5>
                 </div>
                 <div class="col-4 col-lg-2">
-                    <button class="btn btn-warning">Nuevo</button><br>
+                    <button class="btn btn-warning" data-toggle="modal" data-target="#NuevoAuto">Nuevo</button><br>
                 </div>
             </div>
-            <!--<h5>Autos Registrados <button class="btn btn-warning">Nuevo</button></h5>-->
             <?php
-            //despues de revisar vigencias y cambiar los vencidos a vigente=no, traigo los permisos vigentes
-            $sql = "SELECT * FROM accesos WHERE idusuario = '$id' and vigente = 'si'";
+            $sql = "SELECT * FROM autos WHERE iduser = '$id'";
             $resultado = mysqli_query($conexion,$sql);
             if (mysqli_num_rows($resultado) > 0) {
             ?>
@@ -96,12 +92,11 @@ $id = $_SESSION["id"];
                         <th scope="col">Modelo</th>
                         <th scope="col">Color</th>
                         <th scope="col">Placas</th>
-                        <th scope="col">Eliminar</th>
+                        <th scope="col">Editar</th>
                     </tr>
                     </thead>
                     <tbody>
             <?php 
-                // output data of each row
                 while($row = mysqli_fetch_assoc($resultado)) {
             ?>
                         <tr>
@@ -109,7 +104,7 @@ $id = $_SESSION["id"];
                             <td><?php echo $row['color'];  ?></td>
                             <td><?php echo $row['placas'];  ?></td>
                          <!--   <td><button class="btn btn-warning"><img src="img/downicon.png" width="20px" alt=""></button></td>-->
-                           <td><button class="btn btn-danger"><img src="img/deleteicon.png" width="20px" alt=""></button></td>
+                           <td><button id="<?php echo $row['id'];  ?>" class="btn btn-success" onclick="editauto(this.id);" ><img src="img/configicon.png" width="20px" alt=""></button></td>
                         </tr>
             <?php 
                 }
@@ -124,6 +119,40 @@ $id = $_SESSION["id"];
     </div><!--end row table autos registrados-->
     
 </div>
-    
+
+
+<!-- Modal nuevo auto-->
+<div class="modal fade modalnew" id="NuevoAuto" tabindex="-1" aria-labelledby="NuevoAutoLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title modtitulo" id="exampleModalLabel">Registro de automovil</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+              <div class="col-12">
+                  <input type="text" class="form-control" id="newmarca" placeholder="marca"><br>
+                  <input type="text" class="form-control" id="newmodelo" placeholder="modelo"><br>
+                  <input type="text" class="form-control" id="newcolor" placeholder="color"><br>
+                  <input type="text" class="form-control" id="newplacas" placeholder="placas" oninput="this.value = this.value.toUpperCase()">
+              </div>             
+        </div>
+      </div>
+      <div class="modal-footer" id="modfoot">
+        <button type="button" class="btn btn-secondary" id="cancelnewauto" data-dismiss="modal">Cancelar</button>
+        <button type="button" onclick="guardarauto()" class="btn btn-info">Guardar</button>
+      </div>
+      
+    </div>
+  </div>
+</div>
+   <!-- End Modal nuevo auto--> 
+
+
+<!--    
 </body>
 </html>
+          -->

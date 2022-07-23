@@ -3,13 +3,16 @@ date_default_timezone_set("America/Mexico_City");
 session_start();
 include("conexion.php");
 $id = $_SESSION["id"];
-$fechahoy = strtotime(date('Y-m-d'));
+$fechahoy = strtotime(date('Y-m-d h:i:sa'));
+//echo $fechahoy . "<br>";
+//echo date('Y-m-d h:i:sa') . "<br>";
 //antes que nada reviso vigencia de los accesos
 $revisarvigencia = "SELECT * FROM accesos WHERE idusuario = '$id' and vigente = 'si'";
 $resultado = mysqli_query($conexion,$revisarvigencia);
 if (mysqli_num_rows($resultado) > 0) {
     while($row = mysqli_fetch_assoc($resultado)) {
         $vencimiento = strtotime($row['fin']);
+        //echo $vencimiento . "<br>";
         //si hay un error en la fecha se borra el acceso
         if($vencimiento < 0){
             $erroneo = $row['indexacceso'];
@@ -19,7 +22,7 @@ if (mysqli_num_rows($resultado) > 0) {
         //si la fecha de fin es menor que la fecha de hoy, actualizo estado a vigente no
         if($vencimiento < $fechahoy){
             $pasado = $row['indexacceso'];
-            echo $pasado;
+            //echo $pasado;
             $vencidos = "UPDATE accesos SET vigente = 'no' WHERE indexacceso = '$pasado' ";
             mysqli_query($conexion, $vencidos);
         }
@@ -50,7 +53,7 @@ if (mysqli_num_rows($resultado) > 0) {
                 <td><?php echo "<b>".$row['nombre'] . "</b><br>" . $row['tipo'] ;  ?></td>
                 <td><?php echo $row['inicio'];  ?></td>
                 <td><?php echo $row['fin'];  ?></td>
-                <td><button class="btn btn-warning"><img src="img/downicon.png" width="20px" alt=""></button></td>
+                <td><button onclick="qrgen(this.id)" class="btn btn-warning" id="<?php echo $row['indexacceso'];?>"><img src="img/downicon.png" width="20px" alt=""></button></td>
              <!--   <td><button class="btn btn-danger"><img src="img/deleteicon.png" width="20px" alt=""></button></td>-->
             </tr>
 <?php 

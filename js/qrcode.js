@@ -275,8 +275,17 @@ var QRCode;
 	})() : (function () { // Drawing in Canvas
 		function _onMakeImage() {
 			this._elImage.src = this._elCanvas.toDataURL("image/png");
-			this._elImage.style.display = "block";
-			this._elCanvas.style.display = "none";			
+			this._elImage.style.display = "none";
+			this._elCanvas.style.display = "block";	
+			//test a tag
+			/*this.atag = document.createElement("a");
+			this.atag.id = "downqr";
+			this.atag.href = this._elCanvas.toDataURL("image/png");
+			this.atag.text = "Descargar QR";
+			this.atag.style.display = "block";
+			this.atag.download = "QRCanv.png";
+			this._el.appendChild(this.atag);*/
+			///////////////////////////		
 		}
 		
 		// Android 2.1 bug workaround
@@ -357,15 +366,19 @@ var QRCode;
 			this._elCanvas = document.createElement("canvas");
 			this._elCanvas.width = htOption.width;
 			this._elCanvas.height = htOption.height;
+			this._elCanvas.id = "canvasqr";
 			el.appendChild(this._elCanvas);
 			this._el = el;
 			this._oContext = this._elCanvas.getContext("2d");
 			this._bIsPainted = false;
 			this._elImage = document.createElement("img");
-			this._elImage.alt = "Scan me!";
+			this._elImage.alt = "Scanear";
+			this._elImage.id = "qrcanvas";
 			this._elImage.style.display = "none";
 			this._el.appendChild(this._elImage);
 			this._bSupportDataURI = null;
+			//test create a tag
+
 		};
 			
 		/**

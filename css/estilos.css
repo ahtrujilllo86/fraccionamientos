@@ -4,10 +4,17 @@
     width: 100vw;
 }
 .regform{
-    min-height: 50vh;
+    height: 50vh;
     top: 15%;
     position: absolute;
     text-align: center;
+}
+.newform{
+    min-height: 100vh;
+    top: 10%;
+
+    text-align: center;
+    color: #fff;
 }
 .cambiarpassword{
     text-align: center;
@@ -46,3 +53,7 @@
     height:160px;
     margin-top:15px;
   }
+
+#registerbutton{
+    display: none;
+}

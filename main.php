@@ -1,5 +1,7 @@
 <?php 
+date_default_timezone_set("America/Mexico_City");
 session_start();
+include("conexion.php");
 if($_SESSION["correo"]){
     $user = $_SESSION["nombre1"] . " " . $_SESSION["apellidop"];
     $id = $_SESSION["id"];
@@ -28,8 +30,30 @@ header("Location: index.html");
     $(document).ready(function(){
         $("#tableaccesos").load("loadaccesos.php");
     });
+/*    function qrgen(){
+        document.getElementById("modbody").innerHTML = "";
+        document.getElementById("modfoot").innerHTML = '<button type="button" onclick="downqr()" class="btn btn-block btn-info">Generar Enlace</button>';
+        var qrcode = new QRCode("qrgen");
+        qrcode.makeCode("www.qgsolutions.mx");
+    }
+
+    function downqr(){
+      var divEl = document.getElementById("qrgen"),
+      src = divEl.getElementsByTagName("img")[0].src;
+      document.getElementById("modfoot").innerHTML = '<button type="button" onclick="alertsrc()" class="btn btn-block btn-danger">Descargar QR</button>';
+      //alert(src); 
+    }
+
+    function alertsrc(){
+      var divEl = document.getElementById("qrgen"),
+      src = divEl.getElementsByTagName("img")[0].src;
+      alert(src); 
+    }
+    */
+
 </script>
 <body>
+  
 <nav class="navbar navbar-expand-lg navbar-dark barrasuperior">
   <a class="navbar-brand" href="main.php"><h3><?php echo $user;?></h3></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -74,7 +98,6 @@ header("Location: index.html");
     </div>
 </div><!--end container-fluid2-->
 
-<div id="qrcode"></div>
 
 <!-- Modal nuevo acceso-->
 <div class="modal fade modalnew" id="NuevoAcceso" tabindex="-1" aria-labelledby="NuevoAccesoLabel" aria-hidden="true">
@@ -87,9 +110,7 @@ header("Location: index.html");
         </button>
       </div>
       <div class="row justify-content-center" >
-        <div class="col-8" id="qrgen">
-
-        </div>
+        <div class="col-8" id="qrgen"></div>
       </div>
       
       
@@ -112,10 +133,28 @@ header("Location: index.html");
                 </div>
               </div>
               <div class="col-12" id="autodatos" style="display: none;">
+              <!--test select automovil desde BD-->
+
+              <select name="autobd" id="autobd" onchange="fillauto(this.value)" class="form-control">
+              <option value="none">Ingreso Manual</option>
+              <?php 
+              $autosbd = "SELECT * FROM autos WHERE iduser = '$id'";
+              $resultado = mysqli_query($conexion,$autosbd);
+              if (mysqli_num_rows($resultado) > 0) {
+                  while($row = mysqli_fetch_assoc($resultado)) {?>
+                    <option value="<?php echo $row['id']; ?>"><?php echo $row['modelo'] . " " . $row['color']. " " . $row['placas']; ?></option>
+                  <?php 
+                  }
+              }
+              
+              ?>
+              </select><br>
+              <!--test select automovil desde BD-->
+
                   <input type="text" class="form-control" id="marca" placeholder="marca"><br>
                   <input type="text" class="form-control" id="modelo" placeholder="modelo"><br>
                   <input type="text" class="form-control" id="color" placeholder="color"><br>
-                  <input type="text" class="form-control" id="placas" placeholder="placas">
+                  <input type="text" class="form-control" id="placas" placeholder="placas" oninput="this.value = this.value.toUpperCase()">
               </div>
               <br><h5>Inicio</h5><input type="datetime-local" id="inicio" class="form-control">
               <br><h5>Fin</h5><input type="datetime-local" id="fin" class="form-control">              
@@ -124,13 +163,47 @@ header("Location: index.html");
       </div>
       <div class="modal-footer" id="modfoot">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-        <button type="button" onclick="qrgen()" class="btn btn-success">QRGen</button>
+        <!--<button type="button" onclick="qrgen('2')" class="btn btn-success">QRGen</button>-->
         <button type="button" onclick="guardaracceso()" class="btn btn-info">Guardar</button>
       </div>
       
     </div>
   </div>
 </div>
-    
+<!-- End Modal nuevo acceso-->
+
+<!-- Editar auto-->
+<div class="modal fade" id="editAuto" tabindex="-1" aria-labelledby="editAutoLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="">Editar automovil</h5>
+        <span id="ideauto" style="display:none;"></span>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+              <div class="col-12">
+                  <input type="text" class="form-control" id="editmarca" placeholder="marca"><br>
+                  <input type="text" class="form-control" id="editmodelo" placeholder="modelo"><br>
+                  <input type="text" class="form-control" id="editcolor" placeholder="color"><br>
+                  <input type="text" class="form-control" id="editplacas" placeholder="placas" oninput="this.value = this.value.toUpperCase()">
+              </div>             
+        </div>
+      </div>
+      <div class="modal-footer" id="">
+        <button type="button" onclick="resaveauto()" class="btn btn-info">Guardar Cambios</button>
+        <button type="button" onclick="deleteauto()" class="btn btn-danger">Eliminar</button>
+        <button type="button" class="btn btn-secondary" id="closemodaledit" data-dismiss="modal">Cancelar</button>
+      </div>
+      
+    </div>
+  </div>
+</div>
+   <!-- End Editar auto--> 
+
+
 </body>
 </html>

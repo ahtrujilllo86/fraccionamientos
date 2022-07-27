@@ -10,6 +10,8 @@ $data = mysqli_fetch_array($resultado);
 if ($data > 0)
 {
     echo "si";
+}else{
+    echo "none";
 }
 
 // Close connection

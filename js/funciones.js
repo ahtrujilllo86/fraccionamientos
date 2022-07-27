@@ -12,8 +12,12 @@ function checktoken(token){
     $.post("checktoken.php", {token: token}, function(result){
         if(result == "si"){
             document.getElementById("registerbutton").style.display = "block";
+            document.getElementById("tokensi").style.display = "block";
+            document.getElementById("tokenno").style.display = "none";
         }else{
             document.getElementById("registerbutton").style.display = "none";
+            document.getElementById("tokensi").style.display = "none";
+            document.getElementById("tokenno").style.display = "block";
         }
         }); 
 }
@@ -51,7 +55,11 @@ function showautodiv(ch){
     if(ch == true){
       document.getElementById("autodatos").style.display = "block";   
     }else{
-        document.getElementById("autodatos").style.display = "none";  
+        document.getElementById("autodatos").style.display = "none"; 
+        document.getElementById("marca").value = "";
+        document.getElementById("modelo").value = "";
+        document.getElementById("color").value = "";
+        document.getElementById("placas").value = ""; 
     }   
 }
 
@@ -145,6 +153,13 @@ function guardarauto(ide){
 }
 
 function fillauto(idauto){
+    
+    if(idauto == "none"){
+        document.getElementById("marca").value = "";
+        document.getElementById("modelo").value = "";
+        document.getElementById("color").value = "";
+        document.getElementById("placas").value = "";
+    }
     $.post("fillauto.php", {idauto: idauto},
     function(result){
        document.getElementById("marca").value = result.marca;

@@ -63,5 +63,9 @@ if (mysqli_num_rows($resultado) > 0) {
     </table>   
 <?php 
 
+  }else{
+    ?>
+     <h4 style="text-align: center;"><u>Sin Accesos Vigentes</u></h4><br><br>
+ <?php
   }
 ?>

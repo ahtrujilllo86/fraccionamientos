@@ -1,49 +1,34 @@
 <?php
-date_default_timezone_set("America/Mexico_City");
-session_start();
+
 include("conexion.php");
-$idusuario = $_SESSION["id"];
-$idfrac = $_SESSION["idfrac"];
-$casa = $_SESSION["casa"];
-$autoriza = $_SESSION["nombre1"] . " " . $_SESSION["apellidop"];
 
-$tipo = $_POST['tipo'];
-$nombre = $_POST['nombre'];
-$marca = $_POST['marca'];
-$modelo = $_POST['modelo'];
-$color = $_POST['color'];
-$placas = $_POST['placas'];
-$inicio = $_POST['inicio'];
-$fin = $_POST['fin'];
+$idfrac = $_POST['idfrac'];
+$nombre1 = $_POST['nombre1'];
+$nombre2 = $_POST['nombre2'];
+$apellidop = $_POST['apellidop'];
+$apellidom = $_POST['apellidom'];
+$correo = $_POST['correo'];
+$password = $_POST['password'];
+$casa = $_POST['casa'];
+$token = $_POST['token'];
 
-//echo $fin;
-$indexacc = "SELECT indexacceso  from accesos ORDER BY id DESC LIMIT 1";
-$resultado = mysqli_query($conexion,$indexacc);
-$indexacceso = mysqli_fetch_array($resultado);
-$newindex = $indexacceso[0] +1;
-//echo $newindex;
+//inserto el nuevo usuario 
+$nuevoUsuario = "INSERT INTO usuarios (idfrac,nombre1,nombre2,apellidop,apellidom,correo,
+password,casa,token)VALUES 
+('$idfrac','$nombre1','$nombre2','$apellidop','$apellidom','$correo',
+'$password','$casa','$token')";
+if(mysqli_query($conexion, $nuevoUsuario)){
+    echo "Registro insertado!!";
+} 
 
-if($inicio == NULL || $fin == NULL ){
-    echo ("0");
+//una vez insertado el usuario borro el token de la tabla tokens, previo ya lo guarde en el usuario
+$flushtoken = "DELETE FROM tokens WHERE token ='$token'";
+if(mysqli_query($conexion, $flushtoken)){
+    echo "Token Eliminado";
 }else{
-    
-    $saveregistro = "INSERT INTO accesos (indexacceso,idusuario,idfrac,tipo,nombre,marca,
-    modelo,color,placas,inicio,fin,vigente,casa,autoriza)VALUES 
-    ('$newindex','$idusuario','$idfrac','$tipo','$nombre','$marca',
-    '$modelo','$color','$placas','$inicio','$fin','si','$casa','$autoriza')";
-    if(mysqli_query($conexion, $saveregistro)){
-        //echo "Registro insertado!!";
-        echo $newindex;
-    }else{
-         echo "0";
-    }
-    
+    echo "Error, intente de nuevo";
 }
-
-
-
-
 // Close connection
 mysqli_close($conexion);
-
+header("Location: index.html");
 ?>

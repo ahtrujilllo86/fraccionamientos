@@ -16,34 +16,43 @@ $placas = $_POST['placas'];
 $inicio = $_POST['inicio'];
 $fin = $_POST['fin'];
 
-//echo $fin;
-$indexacc = "SELECT indexacceso  from accesos ORDER BY id DESC LIMIT 1";
-$resultado = mysqli_query($conexion,$indexacc);
-$indexacceso = mysqli_fetch_array($resultado);
-$newindex = $indexacceso[0] +1;
-//echo $newindex;
+$fechahoy = strtotime(date('Y-m-d h:i:sa'));
+$fechainicio = strtotime($inicio);
+$fechafin = strtotime($fin);
 
-if($inicio == NULL || $fin == NULL ){
-    echo ("0");
-}else{
-    
-    $saveregistro = "INSERT INTO accesos (indexacceso,idusuario,idfrac,tipo,nombre,marca,
-    modelo,color,placas,inicio,fin,vigente,casa,autoriza)VALUES 
-    ('$newindex','$idusuario','$idfrac','$tipo','$nombre','$marca',
-    '$modelo','$color','$placas','$inicio','$fin','si','$casa','$autoriza')";
-    if(mysqli_query($conexion, $saveregistro)){
-        //echo "Registro insertado!!";
-        echo $newindex;
-    }else{
-         echo "0";
-    }
-    
+if($fechainicio < $fechahoy ){
+    //echo "Fecha de inicio no Valida";
+    echo "1";
 }
+elseif($fechafin < $fechainicio || $fechafin < $fechahoy ){
+    //echo "Fecha de fin no Valida";
+    echo "2";
+}else{
 
+    /**/
+    $indexacc = "SELECT indexacceso  from accesos ORDER BY id DESC LIMIT 1";
+    $resultado = mysqli_query($conexion,$indexacc);
+    $indexacceso = mysqli_fetch_array($resultado);
+    $newindex = $indexacceso[0] +1;
 
+    if($inicio == NULL || $fin == NULL ){
+        echo ("0");
+    }else{
+        
+        $saveregistro = "INSERT INTO accesos (indexacceso,idusuario,idfrac,tipo,nombre,marca,
+        modelo,color,placas,inicio,fin,vigente,casa,autoriza)VALUES 
+        ('$newindex','$idusuario','$idfrac','$tipo','$nombre','$marca',
+        '$modelo','$color','$placas','$inicio','$fin','si','$casa','$autoriza')";
+        if(mysqli_query($conexion, $saveregistro)){
+            //echo "Registro insertado!!";
+            echo $newindex;
+        }else{
+            echo "0";
+        }
+        
+    }
 
-
-// Close connection
-mysqli_close($conexion);
-
+    // Close connection
+    mysqli_close($conexion);
+}
 ?>

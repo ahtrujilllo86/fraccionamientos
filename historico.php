@@ -36,7 +36,25 @@ if (mysqli_num_rows($resultado) > 0) {
                 <td><?php echo $row['tipo'];  ?></td>
                 <td><?php echo $row['inicio'];  ?></td>
                 <td><?php echo $row['fin'];  ?></td>
-                <td><?php echo $row['vigente'];  ?></td>
+                <!--<td><?php //echo $row['vigente'];  ?></td>-->
+                <td id="imgstatus"><?php 
+                
+                switch($row['vigente']){
+                    case 'si':
+                        echo "<img src='img/sivigente.png' width='40px'>";
+                    break;
+                    case 'no':
+                        echo "<img src='img/novigente.png' width='40px'>";
+                    break;
+                    case 'borrado':
+                        echo "<img src='img/trash.png' width='40px'>";
+                    break;
+                } 
+                
+                
+                
+                
+                ?></td>
                 
             </tr>
 <?php 

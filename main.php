@@ -30,27 +30,6 @@ header("Location: index.html");
     $(document).ready(function(){
         $("#tableaccesos").load("loadaccesos.php");
     });
-/*    function qrgen(){
-        document.getElementById("modbody").innerHTML = "";
-        document.getElementById("modfoot").innerHTML = '<button type="button" onclick="downqr()" class="btn btn-block btn-info">Generar Enlace</button>';
-        var qrcode = new QRCode("qrgen");
-        qrcode.makeCode("www.qgsolutions.mx");
-    }
-
-    function downqr(){
-      var divEl = document.getElementById("qrgen"),
-      src = divEl.getElementsByTagName("img")[0].src;
-      document.getElementById("modfoot").innerHTML = '<button type="button" onclick="alertsrc()" class="btn btn-block btn-danger">Descargar QR</button>';
-      //alert(src); 
-    }
-
-    function alertsrc(){
-      var divEl = document.getElementById("qrgen"),
-      src = divEl.getElementsByTagName("img")[0].src;
-      alert(src); 
-    }
-    */
-
 </script>
 <body>
   

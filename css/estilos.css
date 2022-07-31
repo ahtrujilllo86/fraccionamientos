@@ -5,9 +5,10 @@
 }
 .regform{
     height: 50vh;
-    top: 15%;
+    top: 8%;
     position: absolute;
     text-align: center;
+    color: #fff;
 }
 .newform{
     min-height: 100vh;
@@ -21,6 +22,7 @@
 }
 .tableaccmanage{
     text-align: center;
+    margin-top: 20px;
 }
 
 .logorow{
@@ -62,4 +64,25 @@
 }
 #tokenno{
     display: none;
+}
+#separacion{
+    width: 100vw;
+    height: 10px;
+    background-color: #000;
+}
+#imgstatus{
+    vertical-align:middle;
+}
+.recoverpassform{
+    color: #fff;
+    text-align: center;
+}
+#forgotpass{
+    font-size: 12px;
+}
+.contenidoqr{
+    text-align: center;
+}
+#divqrshow{
+    margin-top: 3vh;
 }

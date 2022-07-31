@@ -72,26 +72,37 @@ function guardaracceso(){
     var placas = document.getElementById("placas").value;
     var inicio = document.getElementById("inicio").value;
     var fin = document.getElementById("fin").value;
+    
+    if(nombre == ""){
+        alert("El campo Nombre no puede ir vacio");
+    }else if(inicio == ""){
+        alert("El campo fecha de inicio no puede ir vacio");
+    }else if(fin == ""){
+        alert("El campo fecha de fin no puede ir vacio");
+    }else{
     //post values to save on DB
     $.post("guardaracceso.php", {tipo: tipo,nombre: nombre,marca: marca,modelo: modelo,
         color: color,placas: placas,inicio: inicio,fin: fin,}, 
         function(result){
-           /* if(result == 1){
-                alert("Registro Exitoso!!");
-                qrgen();
-            }else{
-                alert(result);
-                location.reload();
-            }*/
+                console.log(result);
+            /**/
             if(result == 0){
-                alert("Error, intente de nuevo");
+                alert("Error en la consulta, intente de nuevo");
                 location.reload();               
+            }else if(result == 1){
+                alert("Fecha de Inicio no valida, intente de nuevo");
+                //location.reload();
+            }else if(result == 2){
+                alert("Fecha de Fin no valida, intente de nuevo");
+                //location.reload();
             }else{
                 //alert(result);
                 qrgen(result);                              
-            }
-            
+            }   
+                
       });
+    }
+    
 }
 
 function qrgen(indexacceso){
@@ -230,4 +241,90 @@ function deleteauto(){
         $('#closemodaledit').trigger('click');
 
     }
+}
+
+function mostrarContrasena(){
+    var tipo = document.getElementById("password");
+    var ruta = document.getElementById("showpass");
+    
+    if(tipo.type == "password"){
+        tipo.type = "text";
+        ruta.src = "img/eyeopen.png";
+    }else{
+        tipo.type = "password";
+        
+        ruta.src = "img/eyeclose.png";
+    }
+}
+
+
+
+function mostrarnewContrasena(){
+    var newtipo = document.getElementById("newpass");
+    var newruta = document.getElementById("shownewpass");
+    
+    if(newtipo.type == "password"){
+        newtipo.type = "text";
+        newruta.src = "img/eyeopen.png";
+    }else{
+        newtipo.type = "password";
+        
+        newruta.src = "img/eyeclose.png";
+    }
+}
+
+function mostrarantContrasena(){
+    var anttipo = document.getElementById("antpassword");
+    var antruta = document.getElementById("showantpass");
+    
+    if(anttipo.type == "password"){
+        anttipo.type = "text";
+        antruta.src = "img/eyeopen.png";
+    }else{
+        anttipo.type = "password";
+        
+        antruta.src = "img/eyeclose.png";
+    }
+}
+
+function checkmail(){
+    var correo = document.getElementById("mymail").value;
+    $.post("verifymail.php", {correo: correo}, function(result){
+    
+        if(result == "ok"){
+            document.getElementById("mytoken").style.display= "block";
+            document.getElementById("textoguia").innerHTML= "Introduce el token que te enviamos cuando te registraste";
+        }else{
+            document.getElementById("mytoken").style.display= "none";
+            document.getElementById("textoguia").innerHTML= "Introduce un correo electronico valido";
+        }
+        
+    });
+}
+
+function verifytoken(){
+    var token = document.getElementById("mytoken").value;
+    var correo = document.getElementById("mymail").value;
+    $.post("verifytoken.php", {token: token, correo: correo}, function(result){
+    
+        if(result == "si"){
+            document.getElementById("camposnewpass").style.display= "block";
+            document.getElementById("textoguia").innerHTML= "Introduce tu nueva contraseña";
+        }else{
+            document.getElementById("camposnewpass").style.display= "none";
+            document.getElementById("textoguia").innerHTML= "Introduce el token que te enviamos cuando te registraste";
+        }
+        
+    });
+}
+
+function storenewpass(){
+    var correo = document.getElementById("mymail").value;
+    var newpass = document.getElementById("newpassword").value;
+
+    $.post("storenewpass.php", {newpass: newpass, correo: correo}, function(result){
+    
+        alert(result);
+        location.href="index.html";
+    });
 }

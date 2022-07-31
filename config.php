@@ -25,13 +25,35 @@ $id = $_SESSION["id"];
     <div class="row justify-content-center cambiarpassword">
         <div class="col-8 col-lg-4">
                 <h5>Cambiar Password</h5>
-            <input name="antpassword" id="antpassword" type="password" class="form-control" onkeyup="checkpass(<?php echo $id?>);" placeholder="password anterior">
-            <br><input name="password" id="newpass" type="password" class="form-control" placeholder="nuevo password">
+           <!-- <input name="antpassword" id="antpassword" type="password" class="form-control" onkeyup="checkpass(<?php //echo $id?>);" placeholder="password anterior">-->
+            
+            <!--div para input password ver digitos-->
+            <br><div class="input-group mb-3">
+                    <input type="password" id="antpassword" name="antpassword" class="form-control" onkeyup="checkpass(<?php echo $id?>);" placeholder="password anterior">
+                    <div class="input-group-append">
+                     <img src="img/eyeclose.png" alt="show" id="showantpass" width="50px" onclick="mostrarantContrasena()">
+                    </div>
+                </div>
+                <!---->
+
+
+            <!--div para input password ver digitos-->
+            <br><div class="input-group mb-3">
+                    <input type="password" id="newpass" name="password" class="form-control" placeholder="nuevo password">
+                    <div class="input-group-append">
+                     <img src="img/eyeclose.png" alt="show" id="shownewpass" width="50px" onclick="mostrarnewContrasena()">
+                    </div>
+                </div>
+                <!---->
+            <!--<br><input name="password" id="newpass" type="password" class="form-control" placeholder="nuevo password">-->
+            
+            
             <br><button class="btn btn-block btn-primary" id="btnpass" onclick="changepass()" disabled>Guardar</button>
             <br>
         </div>
     </div> <!--end row password form-->
     <div class="row justify-content-center">
+        <div class="row" id="separacion"></div>
         <div class="col-12 col-lg-6 tableaccmanage">
             <br><h5>Administrar Accesos</h5><br>
             <?php
@@ -77,6 +99,7 @@ $id = $_SESSION["id"];
     </div><!--end row table accesos vigentes-->
 
     <div class="row justify-content-center">
+        <div class="row" id="separacion"></div>
         <div class="col-12 col-lg-6 tableaccmanage">
             <div class="row">
                 <div class="col-8 col-lg-10">

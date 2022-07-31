@@ -34,7 +34,7 @@
                         <br><input name="apellidop" type="text" class="form-control" placeholder="Apellido Paterno" required>
                         <br><input name="apellidom" type="text" class="form-control" placeholder="Apellido Materno">
                         <br><input name="correo" type="text" class="form-control" placeholder="Correo --> Este sera su usuario" required>
-                        <br><input name="password" type="password" class="form-control" placeholder="password" required>
+                        <br><input name="password" type="text" class="form-control" placeholder="password" required>
                         <br><input name="casa" type="text" class="form-control" placeholder="casa" required>
                         <br><input name="token" id="token"type="text" class="form-control" placeholder="token" onkeyup="checktoken(this.value);">
                             <h6 id="tokensi">Token Valido</h6>
